@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한국 노동시장 — 2,500만 취업자, 어디서 일하는가</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Apple SD Gothic Neo', -apple-system, sans-serif;
+      background: #fafafa;
+      color: #1a1a1a;
+    }
+    header {
+      padding: 24px 32px 16px;
+      border-bottom: 1px solid #e5e5e5;
+      background: #fff;
+    }
+    h1 {
+      font-size: 22px;
+      margin: 0 0 8px;
+    }
+    .subtitle {
+      color: #666;
+      font-size: 13px;
+    }
+    .controls {
+      padding: 16px 32px;
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .layer-btn {
+      padding: 6px 14px;
+      border: 1px solid #d0d0d0;
+      background: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .layer-btn.active {
+      background: #1a1a1a;
+      color: #fff;
+      border-color: #1a1a1a;
+    }
+    #treemap {
+      padding: 16px 32px 32px;
+    }
+    .cell {
+      stroke: #fff;
+      stroke-width: 1px;
+      cursor: pointer;
+    }
+    .cell:hover {
+      stroke: #000;
+      stroke-width: 2px;
+    }
+    .cell-label {
+      font-size: 11px;
+      fill: #fff;
+      pointer-events: none;
+      font-weight: 500;
+    }
+    .legend {
+      padding: 8px 32px;
+      font-size: 12px;
+      color: #666;
+    }
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(0,0,0,0.85);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      max-width: 280px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>한국 노동시장 — 2,500만 취업자, 어디서 일하는가</h1>
+    <p class="subtitle">
+      KECO 직업분류 기준. 사각형 면적 = 종사자 수, 색 = 선택 메트릭. 데이터 출처: KOSIS · KEIS · 워크넷 · Claude (AI 노출도).
+    </p>
+  </header>
+
+  <div class="controls">
+    <span style="font-size:13px;color:#666;">색상:</span>
+    <button class="layer-btn active" data-layer="employed">종사자 수</button>
+    <button class="layer-btn" data-layer="wage">평균 임금</button>
+    <button class="layer-btn" data-layer="education">학력 요구</button>
+    <button class="layer-btn" data-layer="outlook">직업 전망</button>
+    <button class="layer-btn" data-layer="ai_exposure">AI 노출도</button>
+  </div>
+
+  <div id="treemap"></div>
+  <div class="legend" id="legend"></div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="./treemap.js"></script>
+</body>
+</html>

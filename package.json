@@ -1,0 +1,22 @@
+{
+  "name": "korealabormarket",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch:keco": "tsx scripts/01-fetch-keco.ts",
+    "fetch:posting": "tsx scripts/02-fetch-posting-volume.ts",
+    "fetch:wage": "tsx scripts/03-fetch-wage.ts",
+    "score:ai": "tsx scripts/05-score-ai-exposure.ts",
+    "build:site": "tsx scripts/06-build-site-data.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.41",
+    "typescript": "^5.3.0"
+  }
+}

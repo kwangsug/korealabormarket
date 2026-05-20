@@ -1,52 +1,59 @@
-# Korea Labor Market — 한국 노동시장 시각화
+# Korea Labor Market — 한국 2,500만 취업자, 어느 분야에서 일하는가
 
-Karpathy의 [karpathy/jobs](https://github.com/karpathy/jobs) 한국 버전.
+Karpathy의 [karpathy/jobs](https://github.com/karpathy/jobs) 한국 버전. 단순. 빠름.
 
-한국 노동시장을 직업/산업/직군 단위로 시각화. Treemap에서 면적 = 고용 인원, 색 = 선택 메트릭 (임금/학력/전망/AI 노출도/인크루트 채용 트렌드).
+**질문**: 한국 취업자 약 2,500만 명이 직업별로 어떻게 분포해 있는가? 임금·학력·전망·AI 노출도는?
 
-## 데이터 소스
+**답**: Treemap 1개. 사각형 면적 = 종사자 수. 색 = 선택 메트릭 4종.
 
-- **국민연금** (odcloud) — 기업별 추정 연봉 + 가입자수
-- **KOSIS 통계청** — 산업별·규모별 임금
-- **DART** — 상장기업 평균 연봉
-- **KEIS 고용정보원** — 직업별 임금
-- **워크넷 (work24.go.kr OpenAPI)** — 채용공고·기업·직업정보
-- **인크루트 28년 채용 데이터** — 직군 분류 + 트렌드 (차별화 자산)
-- **Claude API (Sonnet)** — AI Exposure 점수 (한국 컨텍스트 prompt)
-
-## Karpathy 원본과 차이
+## Karpathy 원본과 매칭
 
 | Karpathy | korealabormarket |
 |---|---|
-| BLS OOH 342 직업 | 인크루트 직군 × KSIC 산업 교차 ~200~300 셀 |
-| Median Pay | 국민연금 + DART + KEIS 합산 추정 |
-| 4 layers | 5+ layers: 임금·학력·전망·AI·**인크루트 28년 트렌드** |
-| Treemap (d3) | Treemap (d3) — 동일 |
+| BLS OOH 342 직업 | **KECO ~150 직업** (KOSIS 매칭) |
+| Median Pay | KEIS 직업별 평균 임금 |
+| Education | 워크넷 직업사전 학력 |
+| BLS Outlook | 워크넷 전망 |
+| Digital AI Exposure | **Claude scoring (한국 컨텍스트)** |
 
-## CHO 컨텍스트 결합 (의장 IR deck slide 7)
+## 4 Layers (Treemap 색)
 
-- 인구절벽: 합계출산율 0.75
-- NEET 20% (대졸 45%)
-- 미충원 약 50만 (돌봄·제조·건설·서비스·기술)
-- → "AI 노출도 높음 + 미충원" 직종 = 정책 우선순위
+| Layer | 데이터 |
+|---|---|
+| 1. 평균 임금 | KEIS |
+| 2. 학력 요구 | 워크넷 직업사전 |
+| 3. 직업 전망 | 워크넷 전망 |
+| 4. AI 노출도 | Claude Sonnet (한국 컨텍스트 prompt) |
 
-## 일정 (D+5 MVP)
+면적 = **종사자 수** (KOSIS 직업별 취업자 통계).
+
+## 데이터 파이프라인
+
+1. **fetch** — KOSIS / 워크넷 / work24 → 직업별 종사자·임금·학력·전망 수집
+2. **score** — Claude로 AI 노출도 0~10 점수 + 한 줄 근거
+3. **build** — `site/data.json` 단일 파일로 머지
+4. **site** — d3.js treemap (GitHub Pages 호스팅)
+
+## D+5 (월요일) 데모
 
 | Day | 작업 |
 |---|---|
-| D+1 (목) | 데이터 추출 스크립트 — salary DB + work24 API + 워크넷 scrape |
-| D+2 (금) | AI Exposure LLM scoring (Claude) + 인크루트 트렌드 매핑 |
-| D+3 (토) | Treemap 사이트 빌드 (d3.js) |
-| D+4 (일) | UI polish + 한국어 라벨 + 추가 layer |
-| D+5 (월) | 데모 + 1-pager |
+| D+1 목 | 데이터 수집 (script 01~04) |
+| D+2 금 | AI 노출도 scoring (script 05) |
+| D+3 토 | site treemap 빌드 |
+| D+4 일 | UI polish + 한국어 라벨 |
+| **D+5 월** | **데모** |
 
-## 폴더 구조 (예정)
+## 호스팅
+
+GitHub Pages — `kwangsug.github.io/korealabormarket/`
+
+## 폴더 구조
 
 ```
-korealabormarket/
-├── scripts/         data 추출 + LLM scoring (TS)
-├── data/            결과 JSON·CSV
-├── site/            정적 사이트 (d3 treemap)
-├── prompts/         LLM scoring prompt
-└── docs/            분석 노트
+scripts/   data 수집 + scoring (TS)
+data/      raw / processed JSON
+prompts/   LLM scoring prompt
+site/      d3 treemap (정적)
+docs/      분석 노트
 ```
