@@ -1,0 +1,27 @@
+{
+  "extractedAt": "2026-05-20",
+  "note": "PLACEHOLDER 데이터. 실제 데이터는 npm run build:site 실행 후 갱신.",
+  "totalEmployed": 25000000,
+  "jobs": [
+    { "jobCode": "P01", "jobName": "사무직(일반)", "employed": 3500000, "wage": 38000000, "education": "대졸", "outlook": "유지", "ai_exposure": 8, "ai_rationale": "문서·이메일·일정 자동화 가능성 높음" },
+    { "jobCode": "P02", "jobName": "영업직(B2C)", "employed": 2800000, "wage": 35000000, "education": "대졸", "outlook": "유지", "ai_exposure": 5, "ai_rationale": "고객 응대 일부 AI, 관계 유지는 사람" },
+    { "jobCode": "P03", "jobName": "개발자(SW)", "employed": 800000, "wage": 65000000, "education": "대졸", "outlook": "증가", "ai_exposure": 9, "ai_rationale": "코드 보조 AI로 생산성 변화 크지만 수요도 증가" },
+    { "jobCode": "P04", "jobName": "교사(초중고)", "employed": 500000, "wage": 55000000, "education": "대졸", "outlook": "감소", "ai_exposure": 4, "ai_rationale": "대면 중심. 보조 도구화" },
+    { "jobCode": "P05", "jobName": "보육교사", "employed": 280000, "wage": 26000000, "education": "전문대졸", "outlook": "유지", "ai_exposure": 2, "ai_rationale": "물리적 돌봄 + 정서. AI 대체 어려움" },
+    { "jobCode": "P06", "jobName": "건설·기능공", "employed": 1900000, "wage": 42000000, "education": "고졸이하", "outlook": "감소", "ai_exposure": 3, "ai_rationale": "현장 작업. 로봇 부분 도입" },
+    { "jobCode": "P07", "jobName": "제조 생산직", "employed": 2400000, "wage": 40000000, "education": "고졸이하", "outlook": "감소", "ai_exposure": 6, "ai_rationale": "자동화·로봇 도입 가속" },
+    { "jobCode": "P08", "jobName": "운전기사·배송", "employed": 1500000, "wage": 35000000, "education": "고졸이하", "outlook": "유지", "ai_exposure": 7, "ai_rationale": "자율주행·라우팅 최적화" },
+    { "jobCode": "P09", "jobName": "간호사", "employed": 380000, "wage": 48000000, "education": "전문대졸", "outlook": "증가", "ai_exposure": 4, "ai_rationale": "기록·판독 보조. 처치는 사람" },
+    { "jobCode": "P10", "jobName": "디자이너", "employed": 240000, "wage": 38000000, "education": "대졸", "outlook": "유지", "ai_exposure": 8, "ai_rationale": "생성 AI로 시안 자동화. 디렉팅 강조" },
+    { "jobCode": "P11", "jobName": "회계·경리", "employed": 320000, "wage": 38000000, "education": "대졸", "outlook": "감소", "ai_exposure": 9, "ai_rationale": "장부·세무 자동화 빠름" },
+    { "jobCode": "P12", "jobName": "변호사·법무", "employed": 50000, "wage": 80000000, "education": "대학원", "outlook": "유지", "ai_exposure": 7, "ai_rationale": "리서치·문서 AI. 판단은 사람" },
+    { "jobCode": "P13", "jobName": "의사", "employed": 130000, "wage": 110000000, "education": "대학원", "outlook": "유지", "ai_exposure": 5, "ai_rationale": "판독·진단 보조. 면허제로 한국 보호적" },
+    { "jobCode": "P14", "jobName": "요양보호사", "employed": 600000, "wage": 24000000, "education": "고졸이하", "outlook": "증가", "ai_exposure": 2, "ai_rationale": "신체 케어. 인구절벽으로 수요 폭증" },
+    { "jobCode": "P15", "jobName": "농림어업", "employed": 1300000, "wage": 28000000, "education": "고졸이하", "outlook": "감소", "ai_exposure": 4, "ai_rationale": "스마트팜 도입 부분" },
+    { "jobCode": "P16", "jobName": "음식점 종사자", "employed": 2100000, "wage": 26000000, "education": "고졸이하", "outlook": "유지", "ai_exposure": 5, "ai_rationale": "주문·결제 키오스크. 조리는 사람" },
+    { "jobCode": "P17", "jobName": "유통·판매", "employed": 1800000, "wage": 30000000, "education": "고졸이하", "outlook": "감소", "ai_exposure": 7, "ai_rationale": "셀프계산·온라인 전환" },
+    { "jobCode": "P18", "jobName": "금융사무", "employed": 280000, "wage": 60000000, "education": "대졸", "outlook": "감소", "ai_exposure": 8, "ai_rationale": "심사·통계 자동화 빠름" },
+    { "jobCode": "P19", "jobName": "마케팅·기획", "employed": 350000, "wage": 50000000, "education": "대졸", "outlook": "유지", "ai_exposure": 7, "ai_rationale": "콘텐츠·광고 AI. 전략은 사람" },
+    { "jobCode": "P20", "jobName": "공무원", "employed": 1100000, "wage": 40000000, "education": "대졸", "outlook": "유지", "ai_exposure": 6, "ai_rationale": "민원·문서 AI 도입" }
+  ]
+}
