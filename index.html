@@ -202,6 +202,42 @@ canvas#canvas {
 #tooltip .tt-stats .label { color: var(--fg2); }
 #tooltip .tt-stats .value { color: var(--fg); text-align: right; }
 #tooltip .tt-rationale { font-size: 11px; color: var(--fg2); margin-top: 8px; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
+
+#site-footer {
+  margin-top: 40px;
+  padding: 24px 28px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  font-size: 12px;
+  color: var(--fg2);
+  line-height: 1.6;
+}
+#site-footer h4 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+#site-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#site-footer li {
+  margin-bottom: 4px;
+}
+#site-footer a {
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+#site-footer a:hover {
+  border-bottom-color: var(--fg);
+}
 </style>
 </head>
 <body>
@@ -209,9 +245,9 @@ canvas#canvas {
 <div id="wrapper">
 <div id="header">
   <div class="intro">
-    <h1>한국 노동시장 시각화 <a href="https://github.com/karpathy/jobs">원작: karpathy/jobs</a></h1>
-    <p>한국 약 <b>118개 주요 직업</b>을 시각화한 도구입니다. 약 <b>2,950만 명</b>의 한국 취업자가 어느 분야에서 일하는지 보여줍니다. 각 사각형의 <b>면적</b>은 종사자 수에 비례합니다. <b>색</b>은 선택한 지표 &mdash; 직업 전망 / 평균 임금 / 학력 요구 / AI 노출도 &mdash; 를 표시합니다. 본 도구는 보고서나 학술 자료가 아니라, 한국 노동시장을 시각적으로 탐색하기 위한 개발 도구입니다.</p>
-    <p><b>LLM 기반 색상화:</b> <a href="https://github.com/karpathy/jobs">원본 소스 코드</a>는 LLM에 prompt를 입력해 각 직업을 채점·색상화하는 파이프라인을 포함합니다. "AI 노출도" 항목은 한 예시 &mdash; 현재 AI(주로 디지털 AI)가 각 직업의 업무를 얼마나 재편할지 점수로 추정합니다. 다른 prompt(예: 휴머노이드 로봇 노출, 해외 이전 위험, 기후 영향)를 작성하면 다른 색상이 나옵니다.</p>
+    <h1>한국 노동시장 시각화</h1>
+    <p>한국 약 <b>2,950만 명</b>의 취업자가 어느 분야에서 일하고 있는가. <b>118개 주요 직업</b>을 단일 화면에서 한눈에. 각 사각형의 <b>면적</b>은 종사자 수에 비례하고, <b>색</b>은 선택한 지표(직업 전망 / 평균 임금 / 학력 요구 / AI 노출도)를 표시합니다.</p>
+    <p><b>AI 노출도</b>는 현재 AI(주로 디지털 AI)가 각 직업의 업무를 얼마나 재편할지 0~10점으로 추정한 LLM 점수입니다. 점수가 높을수록 업무 방식 변화가 큼을 의미하며, 일자리 소멸을 예측하는 것은 아닙니다.</p>
     <details>
       <summary>AI 노출도 채점 prompt 보기 (예시)</summary>
       <div class="prompt-box">당신은 한국 노동시장 전문가입니다. 주어진 직업에 대해 AI가 업무 방식을 얼마나 재편할지 0~10점으로 평가하세요.
@@ -273,6 +309,34 @@ AI 노출도 측정: AI가 이 직업의 업무를 얼마나 재편할 것인가
 </div>
 
 <canvas id="canvas"></canvas>
+
+<footer id="site-footer">
+  <div class="footer-section">
+    <h4>정보 출처</h4>
+    <ul>
+      <li>직업 분류·종사자 수: KOSIS 통계청 (경제활동인구조사·KSCO)</li>
+      <li>평균 임금: KEIS 한국고용정보원 + 통계청 임금구조</li>
+      <li>학력 요구·직업 전망: 워크넷 직업사전 (고용24)</li>
+      <li>AI 노출도: Claude Sonnet (한국 컨텍스트 prompt)</li>
+    </ul>
+  </div>
+  <div class="footer-section">
+    <h4>소스 코드 / 원본</h4>
+    <ul>
+      <li>본 사이트: <a href="https://github.com/kwangsug/korealabormarket">github.com/kwangsug/korealabormarket</a></li>
+      <li>원본 디자인·아이디어: <a href="https://github.com/karpathy/jobs">karpathy/jobs</a> (Andrej Karpathy) / <a href="https://karpathy.ai/jobs/">karpathy.ai/jobs</a></li>
+      <li>AI 노출도 채점 prompt 원본: <a href="https://github.com/karpathy/jobs/blob/main/score.py">karpathy/jobs/score.py</a></li>
+    </ul>
+  </div>
+  <div class="footer-section">
+    <h4>주의사항</h4>
+    <ul>
+      <li>본 도구는 학술 자료나 공식 보고서가 아닙니다. 한국 노동시장을 시각적으로 탐색하기 위한 개발 도구입니다.</li>
+      <li>AI 노출도 점수는 거친 LLM 추정치이며 엄밀한 예측이 아닙니다. 수요 탄력성·규제 장벽·사회적 선호는 별도.</li>
+      <li>본 데이터는 D+3 시점 가설값. KOSIS·KEIS 실측으로 점진 보정 예정.</li>
+    </ul>
+  </div>
+</footer>
 </div>
 
 <div id="tooltip">
