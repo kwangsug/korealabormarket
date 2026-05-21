@@ -312,12 +312,32 @@ AI 노출도 측정: AI가 이 직업의 업무를 얼마나 재편할 것인가
 
 <footer id="site-footer">
   <div class="footer-section">
-    <h4>정보 출처</h4>
+    <h4>정보 출처 — 정규 직업</h4>
     <ul>
       <li>직업 분류·종사자 수: KOSIS 통계청 (경제활동인구조사·KSCO)</li>
       <li>평균 임금: KEIS 한국고용정보원 + 통계청 임금구조</li>
       <li>학력 요구·직업 전망: 워크넷 직업사전 (고용24)</li>
       <li>AI 노출도: Claude Sonnet (한국 컨텍스트 prompt)</li>
+    </ul>
+  </div>
+  <div class="footer-section">
+    <h4>정보 출처 — 단기·플랫폼 노동</h4>
+    <ul>
+      <li>비정규직·시간제: 통계청 경제활동인구조사 부가조사</li>
+      <li>일용근로자: 고용보험 일용근로자 신고 (고용부)</li>
+      <li>임금·근로시간: 고용형태별 근로실태조사 (통계청·고용부)</li>
+      <li>플랫폼 노동: 한국노동연구원(KLI) · 한국직업능력연구원(KRIVET) 보고서</li>
+      <li>실시간 채용공고: 워크넷 OpenAPI (work24.go.kr)</li>
+      <li>인크루트 뉴워커 (기업 주문형 긱워크 자산)</li>
+    </ul>
+  </div>
+  <div class="footer-section">
+    <h4>실시간 데이터 API</h4>
+    <ul>
+      <li><a href="https://mcp.incruit.com">Incruit MCP Server</a> — 채용공고·기업정보·DART·NTS·Work24·사회적기업·창업기업 통합 sync</li>
+      <li>Anthropic Claude API — AI 노출도 점수 (Sonnet)</li>
+      <li>고용24 OpenAPI — 채용공고(210 L01) · 기업정보(210 L31)</li>
+      <li>KOSIS Open API — 통계청 직업·임금 통계</li>
     </ul>
   </div>
   <div class="footer-section">
