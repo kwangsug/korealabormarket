@@ -299,9 +299,40 @@ canvas#canvas {
 }
 .ksco-source a { color: var(--fg2); border-bottom: 1px dotted var(--fg2); text-decoration: none; }
 
+
+.lang-toggle {
+  position: fixed;
+  top: 16px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  gap: 1px;
+  background: var(--bg2);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.lang-toggle button {
+  padding: 6px 12px;
+  font-size: 12px;
+  background: transparent;
+  color: var(--fg2);
+  border: none;
+  cursor: pointer;
+}
+.lang-toggle button.active {
+  background: rgba(255,255,255,0.08);
+  color: var(--fg);
+}
+
 </style>
 </head>
 <body>
+
+<div class="lang-toggle" id="langToggle">
+  <button data-lang="ko" class="active">한국어</button>
+  <button data-lang="ja">日本語</button>
+</div>
 
 <div id="wrapper">
 <div id="header">
@@ -643,7 +674,7 @@ function draw() {
       ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
       ctx.fillStyle = isHovered ? "#fff" : "rgba(255,255,255,0.85)";
       ctx.textBaseline = "top";
-      ctx.fillText(r.title, rx + 5, ry + 4);
+      ctx.fillText((LANG==="ja" && r.title_ja) ? r.title_ja : r.title, rx + 5, ry + 4);
       if (rh > 34 && rw > 60) {
         ctx.font = `400 ${Math.max(8, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
         ctx.fillStyle = "rgba(255,255,255,0.5)";
@@ -712,14 +743,14 @@ function tooltipHighlight(d) {
 
 function showTooltip(d, mx, my) {
   const tt = document.getElementById("tooltip");
-  tt.querySelector(".tt-title").textContent = d.title;
+  tt.querySelector(".tt-title").textContent = (LANG==="ja" && d.title_ja) ? d.title_ja : d.title;
   tt.querySelector(".tt-exposure").innerHTML = tooltipHighlight(d);
   tt.querySelector(".tt-stats").innerHTML = `
-    <span class="label">\ud3c9\uade0 \uc784\uae08</span><span class="value">${formatPay(d.pay)}</span>
-    <span class="label">\uc885\uc0ac\uc790</span><span class="value">${formatNumber(d.jobs)}\uba85</span>
-    <span class="label">\uc804\ub9dd</span><span class="value">${d.outlook_desc || '\u2014'}</span>
-    <span class="label">\ud559\ub825</span><span class="value">${d.education_kr || d.education || '\u2014'}</span>`;
-  tt.querySelector(".tt-rationale").textContent = colorMode === "exposure" ? (d.exposure_rationale || "") : "";
+    <span class="label">${t("tooltip_pay")}</span><span class="value">${formatPay(d.pay)}</span>
+    <span class="label">${t("tooltip_jobs")}</span><span class="value">${formatNumber(d.jobs)}${LANG==="ja"?"人":"명"}</span>
+    <span class="label">${t("tooltip_outlook")}</span><span class="value">${(LANG==="ja" && d.outlook_desc_ja) ? d.outlook_desc_ja : (d.outlook_desc || "—")}</span>
+    <span class="label">${t("tooltip_education")}</span><span class="value">${(LANG==="ja" && d.education_ja) ? d.education_ja : (d.education_kr || d.education || "—")}</span>`;
+  tt.querySelector(".tt-rationale").textContent = colorMode === "exposure" ? ((LANG==="ja" && d.exposure_rationale_ja) ? d.exposure_rationale_ja : (d.exposure_rationale || "")) : "";
   let tx = mx + 16, ty = my - 16;
   if (tx + 340 > window.innerWidth) tx = mx - 356;
   if (ty < 10) ty = my + 16;
@@ -1118,5 +1149,90 @@ fetch("data.json")
 
 window.addEventListener("resize", resize);
 </script>
+
+<script>
+// ── i18n ────────────────────────────────────────
+let LANG = localStorage.getItem('lang') || 'ko';
+let I18N = {};
+async function loadI18n() {
+  const [ko, ja] = await Promise.all([
+    fetch('./i18n/ko.json').then(r=>r.json()),
+    fetch('./i18n/ja.json').then(r=>r.json())
+  ]);
+  I18N = { ko, ja };
+  applyI18n();
+}
+function t(k) { return (I18N[LANG] && I18N[LANG][k]) || k; }
+function applyI18n() {
+  document.documentElement.lang = LANG;
+  document.title = t('page_title');
+  // 헤더
+  const h1 = document.querySelector('.intro h1');
+  if (h1) h1.firstChild.nodeValue = t('h1');
+  // intro 문단 — full text replace
+  const ps = document.querySelectorAll('.intro > p');
+  if (ps[0]) ps[0].innerHTML = t('intro1_pre') + '<b>' + t('intro1_count') + '</b>' + t('intro1_mid') + '<b>' + t('intro1_jobs') + '</b>' + t('intro1_post') + '<b>' + t('area') + '</b>' + t('intro1_area_post') + '<b>' + t('color') + '</b>' + t('intro1_color_post');
+  if (ps[1]) ps[1].innerHTML = '<b>' + t('intro2').split('는')[0] + '는</b> ' + t('intro2').substring(t('intro2').indexOf('는')+1).trim();
+  // details summary
+  const sum = document.querySelector('.intro details summary');
+  if (sum) sum.textContent = t('prompt_summary');
+  // 마지막 caveat 문단 (별표 b 있는 p)
+  const caveatP = document.querySelectorAll('.intro > p');
+  if (caveatP[caveatP.length-1]) {
+    const last = caveatP[caveatP.length-1];
+    last.innerHTML = '<b>' + t('caveat_label') + ':</b> ' + t('caveat_body');
+  }
+  // KSCO bar
+  const kscoH = document.querySelector('.ksco-bar h3');
+  if (kscoH) kscoH.textContent = t('ksco_title');
+  document.querySelectorAll('.ksco-row').forEach((r, i) => {
+    const order = [2, 3, 9, 4, 8, 5, 7, 6, 1];
+    const k = 'ksco_' + order[i];
+    const name = r.querySelector('.ksco-name');
+    if (name) name.textContent = t(k);
+  });
+  const src = document.querySelector('.ksco-source');
+  if (src) src.innerHTML = t('ksco_source') + (LANG==='ko' ? '' : '');
+  // controls
+  const lblColor = document.querySelector('.controls-row .stat-section > h3');
+  if (lblColor) lblColor.textContent = t('btn_color_metric');
+  const btns = document.querySelectorAll('#colorToggle button');
+  if (btns[0]) btns[0].textContent = t('btn_outlook');
+  if (btns[1]) btns[1].textContent = t('btn_pay');
+  if (btns[2]) btns[2].textContent = t('btn_education');
+  if (btns[3]) btns[3].textContent = t('btn_exposure');
+  const llow = document.getElementById('legendLow');
+  if (llow) llow.textContent = t('legend_low');
+  const lhigh = document.getElementById('legendHigh');
+  if (lhigh) lhigh.textContent = t('legend_high');
+  // total jobs label
+  const totalH3 = document.querySelector('.stats-row .stat-section:first-child h3');
+  if (totalH3) totalH3.textContent = t('stat_total_jobs');
+  // footer h4
+  const fH = document.querySelectorAll('#site-footer h4');
+  if (fH[0]) fH[0].textContent = t('footer_h1');
+  if (fH[1]) fH[1].textContent = t('footer_h2');
+  if (fH[2]) fH[2].textContent = t('footer_h3');
+  if (fH[3]) fH[3].textContent = t('footer_h4');
+  // refresh treemap if data loaded
+  if (typeof data !== 'undefined' && data && data.length) {
+    if (typeof resize === 'function') resize();
+    if (typeof updateStats === 'function') updateStats();
+  }
+}
+function setLang(lang) {
+  LANG = lang;
+  localStorage.setItem('lang', lang);
+  document.querySelectorAll('.lang-toggle button').forEach(b =>
+    b.classList.toggle('active', b.dataset.lang === lang));
+  applyI18n();
+}
+document.querySelectorAll('.lang-toggle button').forEach(b =>
+  b.addEventListener('click', () => setLang(b.dataset.lang)));
+document.querySelectorAll('.lang-toggle button').forEach(b =>
+  b.classList.toggle('active', b.dataset.lang === LANG));
+loadI18n();
+</script>
+
 </body>
 </html>
