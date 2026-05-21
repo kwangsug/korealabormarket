@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>US Job Market Visualizer</title>
+<title>한국 노동시장 시각화 — Korea Labor Market</title>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -209,59 +209,57 @@ canvas#canvas {
 <div id="wrapper">
 <div id="header">
   <div class="intro">
-    <h1>US Job Market Visualizer <a href="https://github.com/karpathy/jobs">GitHub</a></h1>
-    <p>This is a research tool that visualizes <b>342 occupations</b> from the <a href="https://www.bls.gov/ooh/">Bureau of Labor Statistics Occupational Outlook Handbook</a>, covering <b>143M jobs</b> across the US economy. Each rectangle's <b>area</b> is proportional to total employment. <b>Color</b> shows the selected metric &mdash; toggle between BLS projected growth outlook, median pay, education requirements, and AI exposure. Click any tile to view its full BLS page. This is not a report, a paper, or a serious economic publication &mdash; it is a development tool for exploring BLS data visually.</p>
-    <p><b>LLM-powered coloring:</b> The <a href="https://github.com/karpathy/jobs">source code</a> includes scrapers, parsers, and a pipeline for writing custom LLM prompts to score and color occupations by any criteria. You write a prompt, the LLM scores each occupation, and the treemap colors accordingly. The "Digital AI Exposure" option is one example &mdash; it estimates how much current AI (which is primarily digital) will reshape each occupation. But you could write a different prompt for any question &mdash; e.g. exposure to humanoid robotics, offshoring risk, climate impact &mdash; and re-run the pipeline to get a different coloring.</p>
+    <h1>한국 노동시장 시각화 <a href="https://github.com/karpathy/jobs">원작: karpathy/jobs</a></h1>
+    <p>한국 약 <b>118개 주요 직업</b>을 시각화한 도구입니다. 약 <b>2,950만 명</b>의 한국 취업자가 어느 분야에서 일하는지 보여줍니다. 각 사각형의 <b>면적</b>은 종사자 수에 비례합니다. <b>색</b>은 선택한 지표 &mdash; 직업 전망 / 평균 임금 / 학력 요구 / AI 노출도 &mdash; 를 표시합니다. 본 도구는 보고서나 학술 자료가 아니라, 한국 노동시장을 시각적으로 탐색하기 위한 개발 도구입니다.</p>
+    <p><b>LLM 기반 색상화:</b> <a href="https://github.com/karpathy/jobs">원본 소스 코드</a>는 LLM에 prompt를 입력해 각 직업을 채점·색상화하는 파이프라인을 포함합니다. "AI 노출도" 항목은 한 예시 &mdash; 현재 AI(주로 디지털 AI)가 각 직업의 업무를 얼마나 재편할지 점수로 추정합니다. 다른 prompt(예: 휴머노이드 로봇 노출, 해외 이전 위험, 기후 영향)를 작성하면 다른 색상이 나옵니다.</p>
     <details>
-      <summary>View the Digital AI Exposure scoring prompt (example)</summary>
-      <div class="prompt-box">You are an expert analyst evaluating how exposed different occupations are to AI. You will be given a detailed description of an occupation from the Bureau of Labor Statistics.
+      <summary>AI 노출도 채점 prompt 보기 (예시)</summary>
+      <div class="prompt-box">당신은 한국 노동시장 전문가입니다. 주어진 직업에 대해 AI가 업무 방식을 얼마나 재편할지 0~10점으로 평가하세요.
 
-Rate the occupation's overall AI Exposure on a scale from 0 to 10.
+AI 노출도 측정: AI가 이 직업의 업무를 얼마나 재편할 것인가? 직접 효과(AI가 현재 사람이 하는 업무를 자동화) + 간접 효과(AI가 작업자를 더 생산적으로 만들어 인력 수요 변화) 모두 고려.
 
-AI Exposure measures: how much will AI reshape this occupation? Consider both direct effects (AI automating tasks currently done by humans) and indirect effects (AI making each worker so productive that fewer are needed).
+핵심 신호: 업무 산출물이 디지털인가? 컴퓨터로 재택근무 가능한 직업 — 작성·코딩·분석·커뮤니케이션 — 은 AI 노출도가 본질적으로 높음 (7+). 반대로 물리적 존재·수기 기술·현장 실시간 상호작용이 필요한 직업은 AI 노출도가 낮음.
 
-A key signal is whether the job's work product is fundamentally digital. If the job can be done entirely from a home office on a computer — writing, coding, analyzing, communicating — then AI exposure is inherently high (7+), because AI capabilities in digital domains are advancing rapidly. Even if today's AI can't handle every aspect of such a job, the trajectory is steep and the ceiling is very high. Conversely, jobs requiring physical presence, manual skill, or real-time human interaction in the physical world have a natural barrier to AI exposure.
+기준점:
 
-Use these anchors to calibrate your score:
+- 0~1: 매우 적은 영향. 거의 물리적·수기·예측 불가 환경 실시간 대면. AI가 일상 업무에 영향 거의 없음. 예: 지붕 시공, 조경, 산업 잠수.
 
-- 0–1: Minimal exposure. The work is almost entirely physical, hands-on, or requires real-time human presence in unpredictable environments. AI has essentially no impact on daily work. Examples: roofer, landscaper, commercial diver.
+- 2~3: 적은 영향. 주로 물리적·대인 업무. AI는 주변 업무(일정·서류) 일부 보조. 핵심은 사람. 예: 전기기능사, 배관공, 소방관, 치과위생사.
 
-- 2–3: Low exposure. Mostly physical or interpersonal work. AI might help with minor peripheral tasks (scheduling, paperwork) but doesn't touch the core job. Examples: electrician, plumber, firefighter, dental hygienist.
+- 4~5: 중간 영향. 물리·대인 업무 + 지식 업무 혼합. 정보 처리 부분은 AI 의미 있게 보조. 핵심은 여전히 사람. 예: 간호사, 경찰관, 수의사.
 
-- 4–5: Moderate exposure. A mix of physical/interpersonal work and knowledge work. AI can meaningfully assist with the information-processing parts but a substantial share of the job still requires human presence. Examples: registered nurse, police officer, veterinarian.
+- 6~7: 높은 영향. 주로 지식 업무 + 사람 판단·관계·물리 필요. AI 도구 이미 유용. 작업자 생산성 크게 향상. 예: 교사, 관리자, 회계사, 기자.
 
-- 6–7: High exposure. Predominantly knowledge work with some need for human judgment, relationships, or physical presence. AI tools are already useful and workers using AI may be substantially more productive. Examples: teacher, manager, accountant, journalist.
+- 8~9: 매우 높은 영향. 거의 컴퓨터로만 수행. 작성·코딩·분석·설계·커뮤니케이션 모두 AI 발전 영역. 직업 재구성 압박 큼. 예: SW 개발자, 그래픽 디자이너, 번역사, 데이터 분석가, 법무 보조원, 카피라이터.
 
-- 8–9: Very high exposure. The job is almost entirely done on a computer. All core tasks — writing, coding, analyzing, designing, communicating — are in domains where AI is rapidly improving. The occupation faces major restructuring. Examples: software developer, graphic designer, translator, data analyst, paralegal, copywriter.
+- 10: 최대 영향. 정형적 정보 처리, 완전 디지털, 물리 X. AI 이미 대부분 수행 가능. 예: 데이터 입력원, 텔레마케터.
 
-- 10: Maximum exposure. Routine information processing, fully digital, with no physical component. AI can already do most of it today. Examples: data entry clerk, telemarketer.
-
-Respond with ONLY a JSON object in this exact format, no other text:
-{"exposure": &lt;0-10&gt;, "rationale": "&lt;2-3 sentences explaining the key factors&gt;"}</div>
+응답은 다음 JSON 형식만:
+{"exposure": &lt;0-10&gt;, "rationale": "&lt;핵심 요인 2~3 문장&gt;"}</div>
     </details>
-    <p><b>Caveat on Digital AI Exposure scores:</b> These are rough LLM estimates, not rigorous predictions. A high score does not predict the job will disappear. Software developers score 9/10 because AI is transforming their work &mdash; but demand for software could easily <em>grow</em> as each developer becomes more productive. The score does not account for demand elasticity, latent demand, regulatory barriers, or social preferences for human workers. Many high-exposure jobs will be reshaped, not replaced.</p>
+    <p><b>AI 노출도 점수 주의사항:</b> LLM의 거친 추정치이며 엄밀한 예측이 아닙니다. 높은 점수가 일자리 소멸을 예측하는 것이 아닙니다. SW 개발자가 9/10인 이유 = AI가 업무를 재편 중이기 때문. 그러나 작업자가 생산성을 높이면 SW 수요 자체는 더 <em>커질 수도</em> 있습니다. 본 점수는 수요 탄력성·잠재 수요·규제 장벽·사람 노동에 대한 사회적 선호를 고려하지 않습니다. 노출도 높은 직업은 대체보다 재구성될 가능성이 큽니다.</p>
   </div>
 
   <div class="controls-row">
     <div class="stat-section">
-      <h3>Layer</h3>
+      <h3>색상 지표</h3>
       <div class="color-toggle" id="colorToggle">
-        <button data-mode="outlook" class="active">BLS Outlook</button>
-        <button data-mode="pay">Median Pay</button>
-        <button data-mode="education">Education</button>
-        <button data-mode="exposure">Digital AI Exposure</button>
+        <button data-mode="outlook" class="active">직업 전망</button>
+        <button data-mode="pay">평균 임금</button>
+        <button data-mode="education">학력 요구</button>
+        <button data-mode="exposure">AI 노출도</button>
       </div>
     </div>
     <div class="gradient-legend">
-      <span id="legendLow">Declining</span>
+      <span id="legendLow">감소</span>
       <canvas id="gradientLegend" width="80" height="8"></canvas>
-      <span id="legendHigh">Growing</span>
+      <span id="legendHigh">증가</span>
     </div>
   </div>
 
   <div class="stats-row">
     <div class="stat-section">
-      <h3>Total jobs</h3>
+      <h3>총 종사자</h3>
       <div class="stat-big" id="statTotalJobs">&mdash;</div>
     </div>
     <div class="stat-section" id="block2"></div>
@@ -356,15 +354,15 @@ function tileColorCSS(d, alpha) {
 function tileSubInfo(r) {
   if (colorMode === "exposure") {
     return (r.exposure != null ? r.exposure + "/10" : "") +
-           (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + " jobs" : "");
+           (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + "명" : "");
   }
   if (colorMode === "outlook") {
     const o = r.outlook != null ? (r.outlook > 0 ? "+" : "") + r.outlook + "%" : "";
-    return o + (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + " jobs" : "");
+    return o + (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + "명" : "");
   }
   if (colorMode === "pay") {
     return (r.pay != null ? formatPay(r.pay) : "") +
-           (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + " jobs" : "");
+           (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + "명" : "");
   }
   if (colorMode === "education") {
     const short = {
@@ -373,11 +371,11 @@ function tileSubInfo(r) {
       "Postsecondary nondegree award": "Postsecondary",
       "Some college, no degree": "Some college",
       "Associate's degree": "Associate's",
-      "Bachelor's degree": "Bachelor's",
-      "Master's degree": "Master's",
-      "Doctoral or professional degree": "Doctoral/Prof",
+      "Bachelor's degree": "대졸",
+      "Master's degree": "대학원",
+      "Doctoral or professional degree": "박사·전문",
     }[r.education] || "";
-    return short + (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + " jobs" : "");
+    return short + (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + "명" : "");
   }
   return "";
 }
@@ -507,40 +505,46 @@ function hitTest(mx, my) {
 
 function formatNumber(n) {
   if (n == null) return "\u2014";
-  if (n >= 1e6) return (n / 1e6).toFixed(1) + "M";
-  if (n >= 1e3) return Math.round(n / 1e3) + "K";
+  if (n >= 1e7) return (n / 1e7).toFixed(1) + "\ucc9c\ub9cc";
+  if (n >= 1e4) return Math.round(n / 1e4) + "\ub9cc";
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + "\ucc9c";
   return n.toLocaleString();
 }
-function formatPay(n) { return n == null ? "\u2014" : "$" + n.toLocaleString(); }
+function formatPay(n) {
+  if (n == null) return "\u2014";
+  // \ub370\uc774\ud130 \uc815\uaddc\ud654 \ud6c4 \ub2e8\uc704 = \ub9cc\uc6d0
+  if (n >= 10000) return (n / 10000).toFixed(1) + "\uc5b5\uc6d0";
+  return n.toLocaleString() + "\ub9cc\uc6d0";
+}
 
 function tooltipHighlight(d) {
   if (colorMode === "exposure") {
     const v = d.exposure;
     if (v == null) return "";
     const color = exposureColor(v, 1);
-    return `<span style="color:${color};font-weight:600;">Digital AI Exposure: ${v}/10</span>` +
+    return `<span style="color:${color};font-weight:600;">AI 노출도: ${v}/10</span>` +
       `<div style="margin-top:3px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;">` +
       `<div style="height:100%;width:${v * 10}%;background:${color};border-radius:2px;"></div></div>`;
   } else if (colorMode === "outlook") {
     const v = d.outlook;
     if (v == null) return "";
     const color = outlookColor(v, 1);
-    return `<span style="color:${color};font-weight:600;">Outlook: ${v > 0 ? '+' : ''}${v}%</span>` +
-      (d.outlook_desc ? ` <span style="color:var(--fg2);">(${d.outlook_desc})</span>` : '') +
+    return `<span style="color:${color};font-weight:600;">전망: ${d.outlook_desc || ((v > 0 ? '+' : '') + v + '%')}</span>` +
+      `` +
       `<div style="margin-top:3px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;">` +
       `<div style="height:100%;width:${Math.min(100, Math.max(0, (v + 10) / 30 * 100))}%;background:${color};border-radius:2px;"></div></div>`;
   } else if (colorMode === "pay") {
     const v = d.pay;
     if (v == null) return "";
     const color = payColor(v, 1);
-    return `<span style="color:${color};font-weight:600;">Median Pay: ${formatPay(v)}</span>` +
+    return `<span style="color:${color};font-weight:600;">평균 임금: ${formatPay(v)}</span>` +
       `<div style="margin-top:3px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;">` +
       `<div style="height:100%;width:${Math.min(100, v / 150000 * 100)}%;background:${color};border-radius:2px;"></div></div>`;
   } else if (colorMode === "education") {
     const edu = d.education || "";
     const idx = EDU_LEVELS.indexOf(edu);
     const color = idx >= 0 ? eduColor(idx, 1) : "var(--fg)";
-    return `<span style="color:${color};font-weight:600;">Education: ${edu || '\u2014'}</span>`;
+    return `<span style="color:${color};font-weight:600;">\ud559\ub825 \uc694\uad6c: ${d.education_kr || edu || '\u2014'}</span>`;
   }
   return "";
 }
@@ -550,10 +554,10 @@ function showTooltip(d, mx, my) {
   tt.querySelector(".tt-title").textContent = d.title;
   tt.querySelector(".tt-exposure").innerHTML = tooltipHighlight(d);
   tt.querySelector(".tt-stats").innerHTML = `
-    <span class="label">Median pay</span><span class="value">${formatPay(d.pay)}</span>
-    <span class="label">Jobs (2024)</span><span class="value">${formatNumber(d.jobs)}</span>
-    <span class="label">Outlook</span><span class="value">${d.outlook != null ? d.outlook + '%' : '\u2014'} ${d.outlook_desc ? '(' + d.outlook_desc + ')' : ''}</span>
-    <span class="label">Education</span><span class="value">${d.education || '\u2014'}</span>`;
+    <span class="label">\ud3c9\uade0 \uc784\uae08</span><span class="value">${formatPay(d.pay)}</span>
+    <span class="label">\uc885\uc0ac\uc790</span><span class="value">${formatNumber(d.jobs)}\uba85</span>
+    <span class="label">\uc804\ub9dd</span><span class="value">${d.outlook_desc || '\u2014'}</span>
+    <span class="label">\ud559\ub825</span><span class="value">${d.education_kr || d.education || '\u2014'}</span>`;
   tt.querySelector(".tt-rationale").textContent = colorMode === "exposure" ? (d.exposure_rationale || "") : "";
   let tx = mx + 16, ty = my - 16;
   if (tx + 340 > window.innerWidth) tx = mx - 356;
@@ -567,27 +571,27 @@ function hideTooltip() { document.getElementById("tooltip").classList.remove("vi
 // ── Shared stat data ────────────────────────────────────────────────────
 
 const PAY_BANDS = [
-  { label: "<$35K", min: 0, max: 35000 },
-  { label: "$35\u201350K", min: 35000, max: 50000 },
-  { label: "$50\u201375K", min: 50000, max: 75000 },
-  { label: "$75\u2013100K", min: 75000, max: 100000 },
-  { label: "$100K+", min: 100000, max: Infinity },
+  { label: "<3,500만원", min: 0, max: 35000 },
+  { label: "3,500~5,000만원", min: 35000, max: 50000 },
+  { label: "5,000~7,500만원", min: 50000, max: 75000 },
+  { label: "7,500만~1억", min: 75000, max: 100000 },
+  { label: "1억원+", min: 100000, max: Infinity },
 ];
 
 const EDU_GROUPS = [
-  { label: "No degree/HS", match: ["No formal educational credential", "High school diploma or equivalent"] },
-  { label: "Postsec/Assoc", match: ["Postsecondary nondegree award", "Some college, no degree", "Associate's degree"] },
-  { label: "Bachelor's", match: ["Bachelor's degree"] },
-  { label: "Master's", match: ["Master's degree"] },
-  { label: "Doctoral/Prof", match: ["Doctoral or professional degree"] },
+  { label: "고졸 이하", match: ["No formal educational credential", "High school diploma or equivalent"] },
+  { label: "전문대·자격", match: ["Postsecondary nondegree award", "Some college, no degree", "Associate's degree"] },
+  { label: "대졸", match: ["Bachelor's degree"] },
+  { label: "대학원", match: ["Master's degree"] },
+  { label: "박사·전문", match: ["Doctoral or professional degree"] },
 ];
 
 const OUTLOOK_TIERS = [
-  { label: "Declining (<0%)", min: -Infinity, max: -1 },
-  { label: "Slow (0\u20133%)", min: 0, max: 3 },
-  { label: "Average (4\u20137%)", min: 4, max: 7 },
-  { label: "Fast (8\u201314%)", min: 8, max: 14 },
-  { label: "Much faster (15%+)", min: 15, max: Infinity },
+  { label: "감소", min: -Infinity, max: -1 },
+  { label: "느린 성장", min: 0, max: 3 },
+  { label: "평균", min: 4, max: 7 },
+  { label: "빠른 성장", min: 8, max: 14 },
+  { label: "매우 빠른 성장", min: 15, max: Infinity },
 ];
 
 // Weighted avg of metric across a set of group filters
@@ -624,7 +628,7 @@ function renderHbars(items) {
 
 function updateStats() {
   const totalJobs = data.reduce((s, d) => s + (d.jobs || 0), 0);
-  document.getElementById("statTotalJobs").textContent = (totalJobs / 1e6).toFixed(0) + "M";
+  document.getElementById("statTotalJobs").textContent = (totalJobs / 1e7).toFixed(1) + "천만 명";
 
   if (colorMode === "outlook") updateOutlookStats(totalJobs);
   else if (colorMode === "pay") updatePayStats(totalJobs);
@@ -637,9 +641,9 @@ function updateOutlookStats(totalJobs) {
   let wS = 0, wC = 0;
   for (const d of data) { if (d.outlook != null && d.jobs) { wS += d.outlook * d.jobs; wC += d.jobs; } }
   const avg = wC > 0 ? wS / wC : 0;
-  document.getElementById("block2").innerHTML = `<h3>Avg. outlook</h3>
+  document.getElementById("block2").innerHTML = `<h3>평균 전망</h3>
     <div class="stat-big"><span style="color:${outlookColor(avg, 1)}">${avg > 0 ? "+" : ""}${avg.toFixed(1)}%</span></div>
-    <div class="stat-label">job-weighted</div>`;
+    <div class="stat-label">종사자 가중 평균</div>`;
 
   // Histogram: jobs by outlook bucket
   const buckets = [
@@ -649,9 +653,9 @@ function updateOutlookStats(totalJobs) {
   const histJobs = buckets.map(() => 0);
   for (const d of data) { if (d.outlook != null && d.jobs) { const i = buckets.findIndex(b => d.outlook >= b.lo && d.outlook <= b.hi); if (i >= 0) histJobs[i] += d.jobs; } }
   const maxH = Math.max(...histJobs);
-  document.getElementById("block3").innerHTML = `<h3>Jobs by outlook</h3>
+  document.getElementById("block3").innerHTML = `<h3>전망별 종사자</h3>
     <div class="histogram">${histJobs.map((c, i) => `<div class="bar" style="height:${Math.max(2, maxH > 0 ? c / maxH * 100 : 0)}%;background:${outlookColor(buckets[i].mid, 0.7)}"></div>`).join("")}</div>
-    <div class="hist-labels"><span>&lt;0%</span><span>5%</span><span>15%+</span></div>`;
+    <div class="hist-labels"><span>감소</span><span>평균</span><span>매우 증가</span></div>`;
 
   // Tier breakdown
   const tiers = OUTLOOK_TIERS.map(t => {
@@ -659,18 +663,18 @@ function updateOutlookStats(totalJobs) {
     for (const d of data) { if (d.outlook != null && d.jobs && d.outlook >= t.min && d.outlook <= t.max) jobs += d.jobs; }
     return { ...t, jobs, color: outlookColor((t.min === -Infinity ? -8 : t.max === Infinity ? 20 : (t.min + t.max) / 2), 1) };
   });
-  document.getElementById("block4").innerHTML = `<h3>Outlook tiers</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
+  document.getElementById("block4").innerHTML = `<h3>전망 단계</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
 
   // Cross: outlook by pay
   const byPay = weightedAvgByGroups(PAY_BANDS, (d, g) => d.pay != null && d.pay >= g.min && d.pay < g.max, d => d.outlook);
-  document.getElementById("block5").innerHTML = `<h3>Outlook by pay</h3><div class="hbar-chart">${renderHbars(byPay.map(g => ({
+  document.getElementById("block5").innerHTML = `<h3>임금대별 전망</h3><div class="hbar-chart">${renderHbars(byPay.map(g => ({
     label: g.label, val: (g.avg > 0 ? "+" : "") + g.avg.toFixed(1) + "%",
     pct: Math.max(0, Math.min(100, (g.avg + 10) / 30 * 100)), color: outlookColor(g.avg, 0.8)
   })))}</div>`;
 
   // Cross: outlook by education
   const byEdu = weightedAvgByGroups(EDU_GROUPS, (d, g) => g.match.includes(d.education), d => d.outlook);
-  document.getElementById("block6").innerHTML = `<h3>Outlook by education</h3><div class="hbar-chart">${renderHbars(byEdu.map(g => ({
+  document.getElementById("block6").innerHTML = `<h3>학력별 전망</h3><div class="hbar-chart">${renderHbars(byEdu.map(g => ({
     label: g.label, val: (g.avg > 0 ? "+" : "") + g.avg.toFixed(1) + "%",
     pct: Math.max(0, Math.min(100, (g.avg + 10) / 30 * 100)), color: outlookColor(g.avg, 0.8)
   })))}</div>`;
@@ -678,25 +682,25 @@ function updateOutlookStats(totalJobs) {
   // Impact: declining jobs
   let declining = 0;
   for (const d of data) { if (d.outlook != null && d.outlook < 0 && d.jobs) declining += d.jobs; }
-  document.getElementById("block7").innerHTML = `<h3>Declining jobs</h3>
+  document.getElementById("block7").innerHTML = `<h3>감소 직업</h3>
     <div class="stat-big" style="color:${outlookColor(-5, 1)}">${(declining / 1e6).toFixed(1)}M</div>
-    <div class="stat-label">negative outlook</div>`;
+    <div class="stat-label">감소 전망</div>`;
 
   // Impact: growing jobs
   let growing = 0;
   for (const d of data) { if (d.outlook != null && d.outlook > 0 && d.jobs) growing += d.jobs; }
-  document.getElementById("block8").innerHTML = `<h3>Growing jobs</h3>
+  document.getElementById("block8").innerHTML = `<h3>증가 직업</h3>
     <div class="stat-big" style="color:${outlookColor(10, 1)}">${(growing / 1e6).toFixed(1)}M</div>
-    <div class="stat-label">positive outlook</div>`;
+    <div class="stat-label">증가 전망</div>`;
 }
 
 function updatePayStats(totalJobs) {
   let wS = 0, wC = 0;
   for (const d of data) { if (d.pay != null && d.jobs) { wS += d.pay * d.jobs; wC += d.jobs; } }
   const avg = wC > 0 ? wS / wC : 0;
-  document.getElementById("block2").innerHTML = `<h3>Avg. pay</h3>
+  document.getElementById("block2").innerHTML = `<h3>평균 임금</h3>
     <div class="stat-big"><span style="color:${payColor(avg, 1)}">$${Math.round(avg / 1000)}K</span></div>
-    <div class="stat-label">job-weighted</div>`;
+    <div class="stat-label">종사자 가중 평균</div>`;
 
   // Histogram
   const buckets = [
@@ -706,9 +710,9 @@ function updatePayStats(totalJobs) {
   const histJobs = buckets.map(() => 0);
   for (const d of data) { if (d.pay != null && d.jobs) { const i = buckets.findIndex(b => d.pay >= b.lo && d.pay < b.hi); if (i >= 0) histJobs[i] += d.jobs; } }
   const maxH = Math.max(...histJobs);
-  document.getElementById("block3").innerHTML = `<h3>Jobs by pay</h3>
+  document.getElementById("block3").innerHTML = `<h3>임금대별 종사자</h3>
     <div class="histogram">${histJobs.map((c, i) => `<div class="bar" style="height:${Math.max(2, maxH > 0 ? c / maxH * 100 : 0)}%;background:${payColor(buckets[i].mid, 0.7)}"></div>`).join("")}</div>
-    <div class="hist-labels"><span>$30K</span><span>$65K</span><span>$100K+</span></div>`;
+    <div class="hist-labels"><span>3천만원</span><span>6.5천만원</span><span>1억+</span></div>`;
 
   // Tiers
   const tiers = PAY_BANDS.map(t => {
@@ -716,11 +720,11 @@ function updatePayStats(totalJobs) {
     for (const d of data) { if (d.pay != null && d.jobs && d.pay >= t.min && d.pay < t.max) jobs += d.jobs; }
     return { ...t, label: t.label, jobs, color: payColor(t.max === Infinity ? 130000 : (t.min + t.max) / 2, 1) };
   });
-  document.getElementById("block4").innerHTML = `<h3>Pay tiers</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
+  document.getElementById("block4").innerHTML = `<h3>임금대 분포</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
 
   // Cross: pay by education
   const byEdu = weightedAvgByGroups(EDU_GROUPS, (d, g) => g.match.includes(d.education), d => d.pay);
-  document.getElementById("block5").innerHTML = `<h3>Pay by education</h3><div class="hbar-chart">${renderHbars(byEdu.map(g => ({
+  document.getElementById("block5").innerHTML = `<h3>학력별 임금</h3><div class="hbar-chart">${renderHbars(byEdu.map(g => ({
     label: g.label, val: "$" + Math.round(g.avg / 1000) + "K",
     pct: Math.max(0, Math.min(100, (Math.log(Math.max(25000, g.avg)) - Math.log(25000)) / (Math.log(250000) - Math.log(25000)) * 100)),
     color: payColor(g.avg, 0.8)
@@ -728,7 +732,7 @@ function updatePayStats(totalJobs) {
 
   // Cross: pay by outlook tier
   const byOl = weightedAvgByGroups(OUTLOOK_TIERS, (d, g) => d.outlook != null && d.outlook >= g.min && d.outlook <= g.max, d => d.pay);
-  document.getElementById("block6").innerHTML = `<h3>Pay by outlook</h3><div class="hbar-chart">${renderHbars(byOl.map(g => ({
+  document.getElementById("block6").innerHTML = `<h3>전망별 임금</h3><div class="hbar-chart">${renderHbars(byOl.map(g => ({
     label: g.label.replace(/ \(.*/, ""), val: "$" + Math.round(g.avg / 1000) + "K",
     pct: Math.max(0, Math.min(100, (Math.log(Math.max(25000, g.avg)) - Math.log(25000)) / (Math.log(250000) - Math.log(25000)) * 100)),
     color: payColor(g.avg, 0.8)
@@ -737,7 +741,7 @@ function updatePayStats(totalJobs) {
   // Impact: total wages
   let totalWages = 0;
   for (const d of data) { if (d.pay != null && d.jobs) totalWages += d.pay * d.jobs; }
-  document.getElementById("block7").innerHTML = `<h3>Total wages</h3>
+  document.getElementById("block7").innerHTML = `<h3>총 임금</h3>
     <div class="stat-big">$${(totalWages / 1e12).toFixed(1)}T</div>
     <div class="stat-label">annual</div>`;
   document.getElementById("block8").innerHTML = "";
@@ -749,7 +753,7 @@ function updateEducationStats(totalJobs) {
   for (const d of data) {
     if (d.jobs && ["Bachelor's degree", "Master's degree", "Doctoral or professional degree"].includes(d.education)) bsJobs += d.jobs;
   }
-  document.getElementById("block2").innerHTML = `<h3>Bachelor's+</h3>
+  document.getElementById("block2").innerHTML = `<h3>대졸+ 비중</h3>
     <div class="stat-big"><span style="color:${eduColor(5, 1)}">${(bsJobs / totalJobs * 100).toFixed(0)}%</span></div>
     <div class="stat-label">of all jobs</div>`;
 
@@ -760,17 +764,17 @@ function updateEducationStats(totalJobs) {
     return { ...g, jobs, idx: i };
   });
   const maxH = Math.max(...groups.map(g => g.jobs));
-  document.getElementById("block3").innerHTML = `<h3>Jobs by education</h3>
+  document.getElementById("block3").innerHTML = `<h3>학력별 종사자</h3>
     <div class="histogram">${groups.map(g => `<div class="bar" style="height:${Math.max(2, maxH > 0 ? g.jobs / maxH * 100 : 0)}%;background:${eduColor(g.idx * 2, 0.7)}"></div>`).join("")}</div>
     <div class="hist-labels"><span>HS</span><span>BS</span><span>PhD</span></div>`;
 
   // Tier breakdown (same groups with counts)
   const tiers = groups.map((g, i) => ({ label: g.label, jobs: g.jobs, color: eduColor(i * 2, 1) }));
-  document.getElementById("block4").innerHTML = `<h3>Education tiers</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
+  document.getElementById("block4").innerHTML = `<h3>학력 단계</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
 
   // Cross: avg pay by education
   const payByEdu = weightedAvgByGroups(EDU_GROUPS, (d, g) => g.match.includes(d.education), d => d.pay);
-  document.getElementById("block5").innerHTML = `<h3>Avg pay by education</h3><div class="hbar-chart">${renderHbars(payByEdu.map(g => ({
+  document.getElementById("block5").innerHTML = `<h3>학력별 평균 임금</h3><div class="hbar-chart">${renderHbars(payByEdu.map(g => ({
     label: g.label, val: "$" + Math.round(g.avg / 1000) + "K",
     pct: Math.max(0, Math.min(100, (Math.log(Math.max(25000, g.avg)) - Math.log(25000)) / (Math.log(250000) - Math.log(25000)) * 100)),
     color: payColor(g.avg, 0.8)
@@ -778,7 +782,7 @@ function updateEducationStats(totalJobs) {
 
   // Cross: avg outlook by education
   const olByEdu = weightedAvgByGroups(EDU_GROUPS, (d, g) => g.match.includes(d.education), d => d.outlook);
-  document.getElementById("block6").innerHTML = `<h3>Avg outlook by education</h3><div class="hbar-chart">${renderHbars(olByEdu.map(g => ({
+  document.getElementById("block6").innerHTML = `<h3>학력별 평균 전망</h3><div class="hbar-chart">${renderHbars(olByEdu.map(g => ({
     label: g.label, val: (g.avg > 0 ? "+" : "") + g.avg.toFixed(1) + "%",
     pct: Math.max(0, Math.min(100, (g.avg + 10) / 30 * 100)), color: outlookColor(g.avg, 0.8)
   })))}</div>`;
@@ -788,7 +792,7 @@ function updateEducationStats(totalJobs) {
   for (const d of data) {
     if (d.jobs && ["No formal educational credential", "High school diploma or equivalent"].includes(d.education)) noDeg += d.jobs;
   }
-  document.getElementById("block7").innerHTML = `<h3>No degree / HS</h3>
+  document.getElementById("block7").innerHTML = `<h3>고졸 이하 비중</h3>
     <div class="stat-big">${(noDeg / 1e6).toFixed(1)}M</div>
     <div class="stat-label">jobs, no degree required</div>`;
   document.getElementById("block8").innerHTML = "";
@@ -798,7 +802,7 @@ function updateExposureStats(totalJobs) {
   let wS = 0, wC = 0;
   for (const d of data) { if (d.exposure != null && d.jobs) { wS += d.exposure * d.jobs; wC += d.jobs; } }
   const avg = wC > 0 ? wS / wC : 0;
-  document.getElementById("block2").innerHTML = `<h3>Avg. exposure</h3>
+  document.getElementById("block2").innerHTML = `<h3>평균 AI 노출도</h3>
     <div class="stat-big"><span style="color:${exposureColor(avg, 1)}">${avg.toFixed(1)}</span></div>
     <div class="stat-label">job-weighted, 0\u201310</div>`;
 
@@ -806,7 +810,7 @@ function updateExposureStats(totalJobs) {
   const histogram = new Array(11).fill(0);
   for (const d of data) { if (d.exposure != null && d.jobs) histogram[d.exposure] += d.jobs; }
   const maxH = Math.max(...histogram);
-  document.getElementById("block3").innerHTML = `<h3>Jobs by exposure</h3>
+  document.getElementById("block3").innerHTML = `<h3>노출도별 종사자</h3>
     <div class="histogram">${histogram.map((c, i) => `<div class="bar" style="height:${Math.max(2, maxH > 0 ? c / maxH * 100 : 0)}%;background:${exposureColor(i, 0.7)}"></div>`).join("")}</div>
     <div class="hist-labels"><span>0</span><span>5</span><span>10</span></div>`;
 
@@ -823,24 +827,24 @@ function updateExposureStats(totalJobs) {
     for (const d of data) { if (d.exposure != null && d.jobs && d.exposure >= t.lo && d.exposure <= t.hi) jobs += d.jobs; }
     return { ...t, jobs, color: exposureColor(t.mid, 1) };
   });
-  document.getElementById("block4").innerHTML = `<h3>Exposure tiers</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
+  document.getElementById("block4").innerHTML = `<h3>노출도 단계</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
 
   // Cross: exposure by pay
   const byPay = weightedAvgByGroups(PAY_BANDS, (d, g) => d.pay != null && d.pay >= g.min && d.pay < g.max, d => d.exposure);
-  document.getElementById("block5").innerHTML = `<h3>Exposure by pay</h3><div class="hbar-chart">${renderHbars(byPay.map(g => ({
+  document.getElementById("block5").innerHTML = `<h3>임금대별 노출도</h3><div class="hbar-chart">${renderHbars(byPay.map(g => ({
     label: g.label, val: g.avg.toFixed(1), pct: g.avg / 10 * 100, color: exposureColor(g.avg, 0.8)
   })))}</div>`;
 
   // Cross: exposure by education
   const byEdu = weightedAvgByGroups(EDU_GROUPS, (d, g) => g.match.includes(d.education), d => d.exposure);
-  document.getElementById("block6").innerHTML = `<h3>Exposure by education</h3><div class="hbar-chart">${renderHbars(byEdu.map(g => ({
+  document.getElementById("block6").innerHTML = `<h3>학력별 노출도</h3><div class="hbar-chart">${renderHbars(byEdu.map(g => ({
     label: g.label, val: g.avg.toFixed(1), pct: g.avg / 10 * 100, color: exposureColor(g.avg, 0.8)
   })))}</div>`;
 
   // Impact: wages exposed
   let wagesExposed = 0;
   for (const d of data) { if (d.exposure != null && d.exposure >= 7 && d.jobs && d.pay) wagesExposed += d.jobs * d.pay; }
-  document.getElementById("block7").innerHTML = `<h3>Wages exposed</h3>
+  document.getElementById("block7").innerHTML = `<h3>AI 노출 임금</h3>
     <div class="stat-big" style="color:${exposureColor(8, 1)}">$${(wagesExposed / 1e12).toFixed(1)}T</div>
     <div class="stat-label">annual, in jobs scoring 7+</div>`;
   document.getElementById("block8").innerHTML = "";
@@ -897,10 +901,55 @@ document.getElementById("colorToggle").addEventListener("click", (e) => {
 
 // ── Load ───────────────────────────────────────────────────────────────
 
+// 한국 데이터 정규화 — Karpathy schema 호환
+// - pay (원) → 만원 (₩40,000,000 → 4000 — Karpathy code의 $25K~$250K 범위 매핑)
+// - outlook (1~5 한국 척도) → −10/−5/+2/+8/+15 (% 호환)
+// - education (한국어) → Karpathy EDU_LEVELS 매핑
+const OUTLOOK_MAP_KR = { 1: -10, 2: -5, 3: 2, 4: 8, 5: 15 };
+const EDU_MAP_KR = {
+  "무관": "No formal educational credential",
+  "고졸 이하": "High school diploma or equivalent",
+  "고졸": "High school diploma or equivalent",
+  "고졸 이상": "High school diploma or equivalent",
+  "자격": "Postsecondary nondegree award",
+  "운전면허": "Postsecondary nondegree award",
+  "전문 자격": "Postsecondary nondegree award",
+  "전문대졸": "Associate's degree",
+  "전문대졸 이상": "Associate's degree",
+  "대졸": "Bachelor's degree",
+  "대졸 이상": "Bachelor's degree",
+  "대졸 + 자격": "Bachelor's degree",
+  "중개사 자격": "Bachelor's degree",
+  "법무사 자격": "Bachelor's degree",
+  "노무사 자격": "Bachelor's degree",
+  "세무사 자격": "Bachelor's degree",
+  "CPA 자격": "Bachelor's degree",
+  "전문 교육": "Bachelor's degree",
+  "대학원": "Master's degree",
+  "수의대학원": "Master's degree",
+  "한의학 대학원": "Doctoral or professional degree",
+  "치의학 대학원": "Doctoral or professional degree",
+  "약학 대학원": "Doctoral or professional degree",
+  "의·약학 대학원": "Doctoral or professional degree",
+  "법학전문대학원": "Doctoral or professional degree",
+};
+function normalizeKR(d) {
+  if (d.pay != null && d.pay > 1_000_000) d.pay = Math.round(d.pay / 10000);
+  if (d.outlook != null && d.outlook >= 1 && d.outlook <= 5) {
+    d.outlook = OUTLOOK_MAP_KR[d.outlook];
+  }
+  const eduKR = d.education || "";
+  if (EDU_MAP_KR[eduKR]) {
+    d.education_kr = eduKR;
+    d.education = EDU_MAP_KR[eduKR];
+  }
+  return d;
+}
+
 fetch("data.json")
   .then(r => r.json())
   .then(d => {
-    data = d;
+    data = d.map(normalizeKR);
     updateStats();
     drawGradientLegend();
     resize();
