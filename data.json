@@ -59,7 +59,7 @@
 {"title":"군인","slug":"military","category":"administrative","pay":38000000,"jobs":500000,"outlook":2,"outlook_desc":"감소","education":"고졸 이상","exposure":4,"exposure_rationale":"무인기·자동화 도입. 병역 자원 감소.","url":""},
 {"title":"경찰관","slug":"police","category":"administrative","pay":48000000,"jobs":140000,"outlook":3,"outlook_desc":"유지","education":"고졸 이상","exposure":4,"exposure_rationale":"CCTV·예측 AI. 현장 대응은 사람.","url":""},
 {"title":"소방관","slug":"firefighters","category":"administrative","pay":46000000,"jobs":65000,"outlook":3,"outlook_desc":"유지","education":"고졸 이상","exposure":3,"exposure_rationale":"드론·로봇 보조. 구조는 사람.","url":""},
-{"title":"사무직 (일반사무)","slug":"office-clerks","category":"office","pay":38000000,"jobs":3500000,"outlook":2,"outlook_desc":"감소","education":"대졸","exposure":8,"exposure_rationale":"문서·이메일·일정 자동화. 가장 큰 변화.","url":""},
+{"title":"사무직 (일반사무)","slug":"office-clerks","category":"office","pay":38000000,"jobs":4262000,"outlook":2,"outlook_desc":"감소","education":"대졸","exposure":8,"exposure_rationale":"문서·이메일·일정 자동화. 가장 큰 변화.","url":""},
 {"title":"비서·총무","slug":"secretaries","category":"office","pay":36000000,"jobs":85000,"outlook":2,"outlook_desc":"감소","education":"대졸","exposure":8,"exposure_rationale":"일정·문서 AI. 역할 축소.","url":""},
 {"title":"인사 담당자","slug":"hr-specialists","category":"office","pay":45000000,"jobs":180000,"outlook":3,"outlook_desc":"유지","education":"대졸","exposure":7,"exposure_rationale":"채용·평가 AI. 관계는 사람.","url":""},
 {"title":"회계·경리 사무원","slug":"accounting-clerks","category":"office","pay":36000000,"jobs":320000,"outlook":2,"outlook_desc":"감소","education":"대졸","exposure":9,"exposure_rationale":"장부·세무 자동화 빠름.","url":""},
