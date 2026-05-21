@@ -238,6 +238,67 @@ canvas#canvas {
 #site-footer a:hover {
   border-bottom-color: var(--fg);
 }
+
+.ksco-bar {
+  margin: 16px 0 20px;
+  padding: 16px 18px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+}
+.ksco-bar h3 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg2);
+  margin-bottom: 10px;
+}
+.ksco-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ksco-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.ksco-name {
+  width: 110px;
+  flex-shrink: 0;
+  color: var(--fg);
+  font-weight: 500;
+}
+.ksco-track {
+  flex: 1;
+  height: 14px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 100px;
+}
+.ksco-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4091d0, #2563a8);
+  border-radius: 3px;
+}
+.ksco-val {
+  width: 130px;
+  flex-shrink: 0;
+  text-align: right;
+  color: var(--fg2);
+  font-size: 11px;
+  font-feature-settings: "tnum";
+}
+.ksco-source {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--fg2);
+}
+.ksco-source a { color: var(--fg2); border-bottom: 1px dotted var(--fg2); text-decoration: none; }
+
 </style>
 </head>
 <body>
@@ -246,7 +307,7 @@ canvas#canvas {
 <div id="header">
   <div class="intro">
     <h1>한국 노동시장 시각화</h1>
-    <p>한국 약 <b>2,950만 명</b>의 취업자가 어느 분야에서 일하고 있는가. <b>118개 주요 직업</b>을 단일 화면에서 한눈에. 각 사각형의 <b>면적</b>은 종사자 수에 비례하고, <b>색</b>은 선택한 지표(직업 전망 / 평균 임금 / 학력 요구 / AI 노출도)를 표시합니다.</p>
+    <p>한국 약 <b>2,858만 명</b>의 취업자가 어느 분야에서 일하고 있는가. <b>118개 주요 직업</b>을 단일 화면에서 한눈에. 각 사각형의 <b>면적</b>은 종사자 수에 비례하고, <b>색</b>은 선택한 지표(직업 전망 / 평균 임금 / 학력 요구 / AI 노출도)를 표시합니다.</p>
     <p><b>AI 노출도</b>는 현재 AI(주로 디지털 AI)가 각 직업의 업무를 얼마나 재편할지 0~10점으로 추정한 LLM 점수입니다. 점수가 높을수록 업무 방식 변화가 큼을 의미하며, 일자리 소멸을 예측하는 것은 아닙니다.</p>
     <details>
       <summary>AI 노출도 채점 prompt 보기 (예시)</summary>
@@ -274,6 +335,22 @@ AI 노출도 측정: AI가 이 직업의 업무를 얼마나 재편할 것인가
 {"exposure": &lt;0-10&gt;, "rationale": "&lt;핵심 요인 2~3 문장&gt;"}</div>
     </details>
     <p><b>AI 노출도 점수 주의사항:</b> LLM의 거친 추정치이며 엄밀한 예측이 아닙니다. 높은 점수가 일자리 소멸을 예측하는 것이 아닙니다. SW 개발자가 9/10인 이유 = AI가 업무를 재편 중이기 때문. 그러나 작업자가 생산성을 높이면 SW 수요 자체는 더 <em>커질 수도</em> 있습니다. 본 점수는 수요 탄력성·잠재 수요·규제 장벽·사람 노동에 대한 사회적 선호를 고려하지 않습니다. 노출도 높은 직업은 대체보다 재구성될 가능성이 큽니다.</p>
+  </div>
+
+  <div class="ksco-bar">
+    <h3>KSCO 9 대분류 분포 (2024 통계청)</h3>
+    <div class="ksco-rows">
+      <div class="ksco-row"><span class="ksco-name">2. 전문가</span><div class="ksco-track"><div class="ksco-fill" style="width:100%"></div></div><span class="ksco-val">22.4% · 639만</span></div>
+      <div class="ksco-row"><span class="ksco-name">3. 사무 종사자</span><div class="ksco-track"><div class="ksco-fill" style="width:79.0%"></div></div><span class="ksco-val">17.7% · 505만</span></div>
+      <div class="ksco-row"><span class="ksco-name">9. 단순노무</span><div class="ksco-track"><div class="ksco-fill" style="width:62.1%"></div></div><span class="ksco-val">13.9% · 396만</span></div>
+      <div class="ksco-row"><span class="ksco-name">4. 서비스</span><div class="ksco-track"><div class="ksco-fill" style="width:55.2%"></div></div><span class="ksco-val">12.3% · 353만</span></div>
+      <div class="ksco-row"><span class="ksco-name">8. 장치·기계조작</span><div class="ksco-track"><div class="ksco-fill" style="width:46.7%"></div></div><span class="ksco-val">10.4% · 298만</span></div>
+      <div class="ksco-row"><span class="ksco-name">5. 판매</span><div class="ksco-track"><div class="ksco-fill" style="width:39.3%"></div></div><span class="ksco-val">8.8% · 251만</span></div>
+      <div class="ksco-row"><span class="ksco-name">7. 기능원</span><div class="ksco-track"><div class="ksco-fill" style="width:35.4%"></div></div><span class="ksco-val">7.9% · 226만</span></div>
+      <div class="ksco-row"><span class="ksco-name">6. 농림어업</span><div class="ksco-track"><div class="ksco-fill" style="width:22.7%"></div></div><span class="ksco-val">5.1% · 145만</span></div>
+      <div class="ksco-row"><span class="ksco-name">1. 관리자</span><div class="ksco-track"><div class="ksco-fill" style="width:6.9%"></div></div><span class="ksco-val">1.5% · 44만</span></div>
+    </div>
+    <p class="ksco-source">출처: <a href="https://kosis.kr/statHtml/statHtml.do?orgId=101&amp;tblId=DT_1DA7E08S">KOSIS 2024 DT_1DA7E08S</a> · 한국표준직업분류 7차</p>
   </div>
 
   <div class="controls-row">
